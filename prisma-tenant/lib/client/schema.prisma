@@ -1,0 +1,1225 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+  output   = "./client"
+  binaryTargets = ["linux-musl", "darwin", "windows"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ****** MODEL DO BANCO TENANT ******
+
+model clinica {
+  codcli                             Int                                         @id
+  nome                               String?                                     @db.VarChar(100)
+  cnpj                               String?                                     @db.VarChar(25)
+  hraber                             String?                                     @db.VarChar(10)
+  hrfech                             String?                                     @db.VarChar(10)
+  descri                             String?                                     @db.Text
+  tmpcon                             String?                                     @db.VarChar(10)
+  inialm                             String?                                     @db.VarChar(10)
+  fimalm                             String?                                     @db.VarChar(10)
+  fimsem                             String?                                     @db.VarChar(30)
+  agenPago                           String?                                     @db.VarChar(10)
+  video                              String?                                     @db.VarChar(200)
+  emailAniversario                   Int?                                        @default(1)
+  smsConsulta                        Int?                                        @default(1)
+  emailConsulta                      Int?                                        @default(1)
+  emailClinica                       String?                                     @default("") @db.VarChar(100)
+  visuDicom                          String?                                     @default("") @db.VarChar(100)
+  telefClinica                       String?                                     @db.VarChar(20)
+  modolaudo                          String?                                     @default("false") @db.VarChar(6)
+  intervaloAgenda                    Int?                                        @default(30)
+  cabecalhoLaudos                    String?                                     @db.Text
+  habAlmoco                          Int?                                        @default(1)
+  marginTop                          String?                                     @default("15") @db.VarChar(5)
+  marginLeft                         String?                                     @default("15") @db.VarChar(5)
+  painelChamado                      String?                                     @default("false") @db.VarChar(10)
+  usaPIN                             String?                                     @default("false") @db.VarChar(10)
+  corpoEmailClientes                 String?                                     @db.Text
+  dataCreated                        DateTime?                                   @db.Date
+  statusBase                         String?                                     @default("ACTIVE") @db.VarChar(10)
+  PIN                                Int?
+  configurarClinica                  Int                                         @default(0)
+  adicionaEventos                    Int?                                        @default(0)
+  adicionaProntuarios                Int?                                        @default(0)
+  enderecoLogo                       String?                                     @default("") @db.VarChar(500)
+  cepClin                            String?                                     @default("") @db.VarChar(20)
+  enderecoClin                       String?                                     @default("") @db.VarChar(255)
+  numeroClin                         String?                                     @default("") @db.VarChar(10)
+  bairroClin                         String?                                     @default("") @db.VarChar(100)
+  complementoClin                    String?                                     @default("") @db.VarChar(255)
+  codIbgeClin                        String?                                     @default("") @db.VarChar(20)
+  cidadeClin                         String?                                     @default("") @db.VarChar(50)
+  estadoClin                         String?                                     @default("") @db.VarChar(10)
+  emailresponsavelClin               String?                                     @default("") @db.VarChar(50)
+  emailFinanceiroClin                String?                                     @default("") @db.VarChar(50)
+  pesquisaSatisfacao                 String?                                     @default("true") @db.VarChar(8)
+  profissaoContato                   String?                                     @default("") @db.VarChar(30)
+  quantiaProfSaude                   Int?                                        @default(0)
+  quantiaSecretarias                 Int?                                        @default(0)
+  outroSistema                       String?                                     @default("") @db.VarChar(100)
+  plano                              Int?                                        @default(0)
+  valorMensal                        Decimal?                                    @default(0.00) @db.Decimal(10, 2)
+  minimoUsuarios                     Int?                                        @default(1)
+  linkContrato                       String?                                     @db.VarChar(300)
+  enderecoCobranca                   String?                                     @db.VarChar(300)
+  cepCobranca                        String?                                     @db.VarChar(10)
+  cidadeCobranca                     Int?
+  nomeCobranca                       String?                                     @db.VarChar(50)
+  emailCobranca                      String?                                     @db.VarChar(100)
+  tokencard                          String?                                     @default("") @db.VarChar(50)
+  cod_cliente_omie                   String?                                     @default("") @db.VarChar(20)
+  cod_contrato_omie                  String?                                     @default("") @db.VarChar(20)
+  modopag                            String?                                     @default("BOLETO") @db.VarChar(7)
+  cobrarsms                          String?                                     @default("false") @db.VarChar(7)
+  cobrarapp                          clinica_cobrarapp?                          @default(false)
+  obsInterna                         String?                                     @db.Text
+  temPendencia                       String?                                     @default("false") @db.VarChar(7)
+  idfusohorario                      Int?                                        @default(72)
+  difsegundos                        Int?                                        @default(-10800)
+  usaDoisConvenios                   String?                                     @default("false") @db.VarChar(7)
+  usaCodRef                          String?                                     @default("false") @db.VarChar(7)
+  relatoriosPersonalizados           String?                                     @default("false") @db.VarChar(7)
+  demonstracaoAtiva                  String?                                     @default("false") @db.VarChar(7)
+  localObrigatorio                   String?                                     @default("false") @db.VarChar(7)
+  status_secundario                  clinica_status_secundario?                  @default(false)
+  filtroLocalAgenda                  String?                                     @default("false") @db.VarChar(7)
+  filtroEspecAgenda                  clinica_filtroEspecAgenda?                  @default(false)
+  modoPagamentoPadrao                Int?                                        @default(0)
+  camposPacObrigatorios              String?                                     @db.Text
+  msgSMS                             String?                                     @default("") @db.VarChar(160)
+  msgEmail                           String?                                     @db.Text
+  msgWhatsapp                        String?                                     @db.Text
+  integracaoFilazero                 String?                                     @db.Text
+  integracaoZoop                     String?                                     @db.Text
+  corEmail                           String?                                     @default("954AFB") @db.VarChar(7)
+  logoClinEmail                      String?                                     @default("false") @db.VarChar(7)
+  painelSenhas                       String?                                     @default("false") @db.VarChar(7)
+  usaTISS                            String?                                     @default("true") @db.VarChar(7)
+  uploadPanel                        String?                                     @default("{\"active\":\"false\",\"hash\":\"\",\"short\":\"\"}") @db.VarChar(500)
+  integraSUS                         clinica_integraSUS?                         @default(false)
+  confSUS                            String?                                     @default("{\"regans\":\"\",\"cnes\":\"\",\"cnpj\":\"\"}") @db.VarChar(2000)
+  documentosSUS                      String?                                     @default("{\"active\":\"false\",\"doc_individual\":0,\"doc_geral\":0}") @db.VarChar(500)
+  infoTeste                          String?                                     @default("{\"completos\":\"true\",\"passo1\":\"true\",\"passo2\":\"true\",\"passo3\":\"true\",\"passo4\":\"true\",\"passo5\":\"true\"}") @db.VarChar(2000)
+  configTISS                         String?                                     @db.Text
+  dadosFaturamento                   String?                                     @default("") @db.VarChar(2000)
+  nfeConf                            String?                                     @db.Text
+  usaSolicitante                     clinica_usaSolicitante?                     @default(false)
+  usaReembolso                       clinica_usaReembolso?                       @default(false)
+  obsFinanceira                      String?                                     @db.Text
+  bloqueioProntuario                 clinica_bloqueioProntuario?                 @default(false)
+  edtObsPacAgenda                    clinica_edtObsPacAgenda?                    @default(false)
+  alertaObsPacAgenda                 clinica_alertaObsPacAgenda?                 @default(false)
+  titleAgenda                        String?                                     @default("PACIENTE_NOME | PROCEDIMENTOS_AGEN | CONVENIO_AGEN | PACIENTE_CELULAR | PACIENTE_TELEFONE | VALOR_ATENDIMENTO | PACIENTE_CIDADE | LOCAL_ATENDIMENTO | USUARIO_ALTERACAO") @db.VarChar(500)
+  modeloOrcamento                    String?                                     @db.Text
+  tabelaItensOrcamento               String?                                     @db.Text
+  camposPreCadastro                  String?                                     @db.Text
+  precadastro                        clinica_precadastro?                        @default(true)
+  modulo_questionarios               clinica_modulo_questionarios?               @default(false)
+  campos_evento                      String?                                     @db.Text
+  default_user_permissions           String?                                     @db.Text
+  observacao_obrigatoria_agendamento clinica_observacao_obrigatoria_agendamento? @default(false)
+  exibe_id_sol                       clinica_exibe_id_sol?                       @default(false)
+  obriga_id_sol                      clinica_obriga_id_sol?                      @default(false)
+  filtro_grupos                      clinica_filtro_grupos?                      @default(false)
+  config_financeiro                  String?                                     @db.Text
+  modulo_oncologia                   clinica_modulo_oncologia?                   @default(false)
+  cobrar_telemedicina                clinica_cobrar_telemedicina?                @default(true)
+  controle_vacinas                   clinica_controle_vacinas?                   @default(true)
+  aviso_inadimplencia_paciente       clinica_aviso_inadimplencia_paciente?       @default(false)
+  modelo_carteirinha                 String?                                     @db.Text
+}
+
+model config_clinica {
+  id          Int                        @id @default(autoincrement())
+  nome_config String?                    @unique(map: "nome_config") @db.VarChar(100)
+  texto       String?                    @db.MediumText
+  true_false  BoolEnum?
+  numerico    Int?
+}
+
+model orcamento {
+  codorc         Int                  @id @default(autoincrement())
+  idevento       Int?
+  descricao      String?              @default("") @db.VarChar(500)
+  statusorc      orcamento_statusorc? @default(elaboracao)
+  codu           Int?
+  codp           Int?
+  datacad        DateTime?            @db.Date
+  datavalid      DateTime?            @db.Date
+  dataaprov      DateTime?            @db.Date
+  observacao     String?              @db.VarChar(1000)
+  motivorecusa   Int?
+  deleted        orcamento_deleted?   @default(false)
+  codcon         Int?                 @default(0)
+  codu_prof      Int?
+  usuario        usuarios?            @relation("usuario", fields: [codu], references: [codu])
+  profissional   usuarios?            @relation("profissional", fields: [codu_prof], references: [codu])
+  paciente       pacientes?           @relation(fields: [codp], references: [codp])
+  itensOrcamento orcamentoitens[]
+}
+
+model orcamentoitens {
+  coditem        Int                          @id @default(autoincrement())
+  codorc         Int?
+  descricao      String?                      @default("") @db.VarChar(500)
+  codproc        Int?
+  codconvenio    Int?
+  valor          Decimal?                     @db.Decimal(10, 2)
+  reajuste       orcamentoitens_reajuste?     @default(false)
+  tiporeajuste   orcamentoitens_tiporeajuste? @default(dbgenerated("%"))
+  qtdreajuste    Decimal?                     @db.Decimal(10, 2)
+  quantidade     Int?                         @default(1)
+  valorfinal     Decimal?                     @db.Decimal(10, 2)
+  aprovado       orcamentoitens_aprovado?     @default(false)
+  usuarioAprovou Int?
+  orcamento      orcamento?                   @relation(fields: [codorc], references: [codorc])
+  convenio       convenios?                   @relation(fields: [codconvenio], references: [codconvenio])
+  procedimento   procedimentos?               @relation(fields: [codproc], references: [codproc])
+}
+
+model orcamentorecusas {
+  codrecusa Int     @id @default(autoincrement())
+  descricao String? @default("") @db.VarChar(200)
+}
+
+model eventos {
+  id                  Int                    @id @default(autoincrement())
+  title               String                 @db.VarChar(2000)
+  start               DateTime               @db.DateTime(0)
+  end                 DateTime?              @db.DateTime(0)
+  color               String?                @db.VarChar(50)
+  paciente            String                 @db.VarChar(100)
+  profissional        String                 @db.VarChar(50)
+  codproc             Int                    @default(0)
+  tpagenda            String                 @default("") @db.VarChar(200)
+  status              String                 @db.VarChar(50)
+  status_secundario   Int?
+  horatu              String?                @db.VarChar(40)
+  codconvenio         Int                    @default(0)
+  codplano            Int?                   @default(0)
+  convenio            String                 @default("") @db.VarChar(100)
+  obsagen             String?                @db.VarChar(255)
+  codp                Int?                   @db.UnsignedInt
+  codu                Int?                   @db.UnsignedInt
+  codcon              Int?                   @default(0)
+  cidadep             String?                @db.VarChar(80)
+  contato             String?                @db.VarChar(30)
+  contato2            String?                @db.VarChar(60)
+  contato3            String?                @db.VarChar(60)
+  valor               String?                @db.VarChar(60)
+  editable            String?                @default("true") @db.VarChar(30)
+  coduni              Int?
+  local               Int?
+  pago                String?                @db.VarChar(40)
+  modopag             String?                @db.VarChar(80)
+  parcelas            Int?
+  ocorrenciaRepeticao Int?                   @default(0)
+  codconta            String?                @default("") @db.VarChar(10)
+  medicoSolicitante   String?                @default("") @db.VarChar(50)
+  codVinculo          Int?                   @default(0)
+  desconto            Decimal?               @default(0.00) @db.Decimal(7, 2)
+  tipoDesconto        String?                @default("") @db.VarChar(2)
+  valorFinal          Decimal?               @default(0.00) @db.Decimal(7, 2)
+  deuDesconto         String?                @default("") @db.VarChar(2)
+  id_solicitacao      String?                @default("") @db.VarChar(30)
+  usuarioAtendimento  String?                @default("") @db.VarChar(100)
+  flagevento          Int?                   @default(0)
+  fromApp             String?                @default("false") @db.VarChar(7)
+  obsApp              String?                @db.VarChar(1000)
+  coducad             Int?                   @default(0)
+  datacadeve          DateTime?              @db.DateTime(0)
+  vinculoApp          eventos_vinculoApp?    @default(false)
+  metadados           String?                @db.Text
+  flag_migracao       eventos_flag_migracao? @default(false)
+  data_migracao       DateTime?              @db.DateTime(0)
+  data_edicao         DateTime?              @db.DateTime(0)
+  codu_update         Int?
+  faturamentoentrada  faturamentoentrada?
+  pacienteRelation    pacientes?             @relation(fields: [codp], references: [codp])
+  usuario             usuarios?              @relation(fields: [codu], references: [codu])
+  // medicoSolicitanteRelation   medicoSolicitante?     @relation(fields: [medicoSolicitante], references: [id])
+  convenioRelation convenios? @relation(fields: [codconvenio], references: [codconvenio])
+
+  @@index([codcon], map: "codcon")
+  @@index([codconvenio], map: "codconvenio")
+  @@index([codp], map: "codp")
+  @@index([codplano], map: "codplano")
+  @@index([codproc], map: "codproc")
+  @@index([coducad], map: "coducad")
+  @@index([coduni], map: "coduni")
+  @@index([end], map: "end")
+  @@index([codu, status, start], map: "eventos_dia")
+  @@index([local], map: "local")
+  @@index([ocorrenciaRepeticao], map: "ocorrenciaRepeticao")
+}
+
+model pacientes {
+  codp                 Int                          @id @default(autoincrement()) @db.UnsignedInt
+  nome                 String                       @db.VarChar(100)
+  dtnasc               String?                      @db.VarChar(10)
+  genero               String?                      @db.VarChar(12)
+  email                String?                      @db.VarChar(60)
+  ddi                  Int?                         @default(55)
+  celular              String?                      @db.VarChar(15)
+  telf                 String?                      @db.VarChar(60)
+  telo                 String?                      @db.VarChar(60)
+  cep                  String?                      @db.VarChar(100)
+  endereco             String?                      @db.VarChar(100)
+  numero               String?                      @db.VarChar(20)
+  comple               String?                      @db.VarChar(100)
+  bairro               String?                      @db.VarChar(60)
+  cidade               String?                      @db.VarChar(60)
+  idcidade             Int?                         @default(0)
+  uf                   String?                      @db.VarChar(10)
+  idcidadenatural      Int?                         @default(0)
+  cpf                  String?                      @db.VarChar(25)
+  rg                   String?                      @db.VarChar(13)
+  profis               String?                      @db.VarChar(30)
+  estadoci             String?                      @db.VarChar(20)
+  nmae                 String?                      @db.VarChar(40)
+  npai                 String?                      @db.VarChar(40)
+  nresp                String?                      @db.VarChar(40)
+  obs                  String?                      @db.Text
+  convenio             Int?                         @db.UnsignedInt
+  codplano             Int?                         @default(0)
+  ncart                String?                      @db.VarChar(25)
+  valicart             String?                      @db.VarChar(10)
+  fotopac              String?                      @db.VarChar(150)
+  peso                 String?                      @db.VarChar(30)
+  altura               String?                      @db.VarChar(30)
+  qmind                String?                      @db.VarChar(150)
+  pacFicouSabendo      String?                      @default("0-ninformado") @db.VarChar(30)
+  datacad              String?                      @default("") @db.VarChar(10)
+  alergias             String?                      @db.Text
+  fimImportacao        String?                      @default("false") @db.VarChar(8)
+  orgemissor           String?                      @db.VarChar(8)
+  raca                 String?                      @default("") @db.VarChar(30)
+  ibgecidade           String?                      @default("") @db.VarChar(10)
+  codref               String?                      @db.VarChar(15)
+  obito                String?                      @default("N") @db.VarChar(2)
+  dataObito            DateTime?                    @db.Date
+  conveniodois         Int?                         @default(0)
+  codplanodois         Int?                         @default(0)
+  empresa              String?                      @db.Text
+  nTemCpf              String?                      @default("false") @db.VarChar(7)
+  motivoCPF            String?                      @db.Text
+  recebeAvisos         String?                      @default("true") @db.VarChar(7)
+  recebeAvisosEmail    String?                      @default("true") @db.VarChar(7)
+  ncartcns             String?                      @default("") @db.VarChar(25)
+  cpfresponsavel       String?                      @default("") @db.VarChar(25)
+  profmae              String?                      @default("") @db.VarChar(60)
+  profpai              String?                      @default("") @db.VarChar(60)
+  estrangeiro          pacientes_estrangeiro?       @default(false)
+  tiposanguineo        pacientes_tiposanguineo?     @default(NF)
+  observacaoFinanceira String?                      @db.Text
+  obsClinicas          String                       @db.Text
+  imgCarteiraConv      String?                      @db.VarChar(200)
+  convenioApp          String?                      @db.VarChar(50)
+  lista_consultas      String?                      @db.Text
+  data_modificado      DateTime?                    @db.DateTime(0)
+  codu_modificou       Int?                         @default(0)
+  codu_vendedor        Int?                         @default(0)
+  ncartdois            String?                      @default("") @db.VarChar(100)
+  valicartdois         String?                      @default("") @db.VarChar(20)
+  conveniotres         Int?                         @default(0)
+  codplanotres         Int?                         @default(0)
+  ncarttres            String?                      @default("") @db.VarChar(100)
+  valicarttres         String?                      @default("") @db.VarChar(20)
+  nome_registro        String?                      @default("") @db.VarChar(100)
+  religiao             String?                      @default("") @db.VarChar(20)
+  compartilha_dados    pacientes_compartilha_dados? @default(false)
+  identidade_genero    String?                      @default("") @db.VarChar(50)
+  flag_migracao        pacientes_flag_migracao?     @default(false)
+  data_migracao        DateTime?                    @db.DateTime(0)
+  fichaleg             String?                      @default("") @db.VarChar(50)
+  orcamentos           orcamento[]
+  convenioRelation     convenios?                   @relation(fields: [convenio], references: [codconvenio])
+  cidadeRelation       cidade?                      @relation(fields: [idcidade], references: [id])
+  faturamentoentrada   faturamentoentrada[]
+  eventos              eventos[]
+}
+
+model consulta {
+  codcon           Int                     @id @default(autoincrement()) @db.UnsignedInt
+  queixa           String?                 @db.MediumText
+  anteceden        String?                 @db.Text
+  antecedenfamilia String?                 @db.Text
+  ativi            String?                 @db.VarChar(20)
+  ativiD           String?                 @db.VarChar(150)
+  etili            String?                 @db.VarChar(20)
+  etiliD           String?                 @db.VarChar(150)
+  fuman            String?                 @db.VarChar(20)
+  fumanD           String?                 @db.VarChar(150)
+  droga            String?                 @db.VarChar(20)
+  drogaD           String?                 @db.VarChar(150)
+  alerg            String?                 @db.VarChar(20)
+  alergD           String?                 @db.VarChar(150)
+  diabe            String?                 @db.VarChar(20)
+  diabeD           String?                 @db.VarChar(150)
+  doenc            String?                 @db.VarChar(20)
+  doencD           String?                 @db.VarChar(150)
+  hiper            String?                 @db.VarChar(20)
+  hiperD           String?                 @db.VarChar(150)
+  neopl            String?                 @db.VarChar(20)
+  neoplD           String?                 @db.VarChar(150)
+  remed            String?                 @db.VarChar(20)
+  remedD           String?                 @db.VarChar(150)
+  peso             Float?                  @db.Float
+  altura           Float?                  @db.Float
+  imc              Float?                  @db.Float
+  tempe            Float?                  @db.Float
+  pas              Float?                  @db.Float
+  pad              Float?                  @db.Float
+  freqres          Float?                  @db.Float
+  freqcar          Float?                  @db.Float
+  descfis          String?                 @db.Text
+  cid10            String?                 @db.Text
+  conduta          String?                 @db.Text
+  meds             String?                 @db.Text
+  id               Int
+  nomepac          String                  @db.VarChar(50)
+  codp             Int
+  codu             Int
+  nomepro          String                  @db.VarChar(50)
+  dtconsulta       DateTime?               @db.Date
+  anxfoto1         String?                 @db.VarChar(100)
+  anxfoto2         String?                 @db.VarChar(100)
+  anxfoto3         String?                 @db.VarChar(100)
+  legfotos         String?                 @db.VarChar(150)
+  prescricao       String?                 @db.Text
+  documentos       String?                 @db.Text
+  documentos2      String?                 @db.Text
+  documentos3      String?                 @db.Text
+  documentosdif    String?                 @db.MediumText
+  ncomp            String?                 @db.VarChar(200)
+  motivo           String?                 @db.VarChar(255)
+  etiquetas        String?                 @db.Text
+  listpro          String?                 @db.Text
+  metcon           String?                 @db.VarChar(50)
+  metconD          String?                 @db.VarChar(100)
+  plantrat         String?                 @db.Text
+  patologia        String?                 @db.VarChar(5)
+  flag_migracao    consulta_flag_migracao? @default(false)
+  data_migracao    DateTime?               @db.DateTime(0)
+  data_edicao      DateTime?               @db.DateTime(0)
+  codu_update      Int?
+
+  @@index([codcon], map: "codcon")
+  @@index([codp], map: "codp")
+  @@index([codu], map: "codu")
+  @@index([dtconsulta], map: "dtconsulta")
+  @@index([id], map: "id")
+}
+
+model usuarios {
+  id                     Int                             @id @default(autoincrement())
+  usuclin                Int
+  id_multiclinica        Int
+  codu                   Int
+  usuario                String                          @db.VarChar(100)
+  nome                   String                          @db.VarChar(50)
+  senha                  String?                         @db.VarChar(100)
+  datanasci              String?                         @db.VarChar(50)
+  genero                 String?                         @db.VarChar(50)
+  cpf                    String?                         @db.VarChar(50)
+  rg                     String?                         @db.VarChar(50)
+  telefonecel            String?                         @db.VarChar(50)
+  telefonefix            String?                         @db.VarChar(50)
+  estado                 String?                         @default("") @db.VarChar(50)
+  cidade                 String?                         @db.VarChar(50)
+  cep                    String?                         @db.VarChar(50)
+  endereco               String?                         @db.VarChar(50)
+  numero                 String?                         @db.VarChar(50)
+  bairro                 String?                         @db.VarChar(50)
+  conselho               String?                         @default("") @db.VarChar(7)
+  registroprof           String?                         @db.VarChar(50)
+  registrouf             String?                         @db.VarChar(12)
+  permissao              String?                         @db.VarChar(50)
+  img                    String?                         @default("https://s3-sa-east-1.amazonaws.com/amplimedimggerais/default_profile.png") @db.VarChar(100)
+  viuAtualizacoes        Int?                            @default(1)
+  hab_chat               String?                         @default("1") @db.VarChar(10)
+  volume_chat            String?                         @default("0.2") @db.VarChar(10)
+  panel_user_status      Boolean?                        @default(true)
+  tmpConsulta            Int?                            @default(0)
+  chat_status            Int?                            @default(1)
+  medpadrao              Int?                            @default(0)
+  assinaturaMed          String?                         @default("") @db.VarChar(200)
+  userstatus             String?                         @default("ativo") @db.VarChar(8)
+  intervAgenda           Int?                            @default(30)
+  inicioAgenda           String?                         @default("08:00") @db.VarChar(10)
+  fimAgenda              String?                         @default("18:00") @db.VarChar(10)
+  modoAgenda             String?                         @default("day") @db.VarChar(10)
+  contapadrao            Int?
+  PIN                    Int?
+  usuarioTarefas         Int?
+  modoPagamento          String?                         @default("Dinehiro") @db.VarChar(10)
+  paginaInicial          Int?                            @default(1)
+  controlaPermissoes     Int?                            @default(0)
+  usuarioSuporte         Int?                            @default(0)
+  triagemSimplificada    Int?                            @default(0)
+  mostrarFinalizadas     Int?                            @default(1)
+  usaAmpliconsulta       Int?                            @default(0)
+  blockModalCadHorarios  usuarios_blockModalCadHorarios? @default(false)
+  especialidade          Int?                            @default(0)
+  tratamento             String?                         @default("") @db.VarChar(20)
+  temAgenda              Int?                            @default(1)
+  multiAgenda            String?                         @default("false") @db.VarChar(7)
+  nivelAcesso            Int?                            @default(1)
+  usuarioAluno           Int?                            @default(0)
+  usuarioAtivo           Int?                            @default(1)
+  cobrarUsuario          usuarios_cobrarUsuario?         @default(true)
+  somenteAmpliconsulta   Int?                            @default(0)
+  login_token            String?                         @db.VarChar(255)
+  relatDiario            String?                         @default("true") @db.VarChar(10)
+  ccRelatorioDiario      String?                         @default("") @db.VarChar(255)
+  usaCertificado         usuarios_usaCertificado?        @default(false)
+  atendeOnline           usuarios_atendeOnline?          @default(false)
+  datacad                DateTime                        @default(now()) @db.DateTime(0)
+  usuario_senha_res      String?                         @default("") @db.VarChar(200)
+  agenda_procedimentos   usuarios_agenda_procedimentos?  @default(false)
+  perfil                 usuarios_perfil?
+  cooperado              usuarios_cooperado?             @default(false)
+  consulta_dados_res     usuarios_consulta_dados_res?    @default(true)
+  envia_dados_res        usuarios_envia_dados_res?       @default(true)
+  tipo_certificado       usuarios_tipo_certificado?      @default(soluti)
+  rqe                    String?                         @default("") @db.VarChar(1000)
+  info_implantacao       String?                         @db.Text
+  oid_assinatura         String?                         @db.Text
+  termo_aceite           DateTime?                       @db.DateTime(0)
+  identidade_genero      String?                         @default("") @db.VarChar(50)
+  usuario_restrito       usuarios_usuario_restrito?      @default(false)
+  log_edicoes            String?                         @db.Text
+  horarioRelatorioDiario String?                         @default("20:00") @db.VarChar(50)
+  biografia              String?                         @default("") @db.VarChar(1000)
+  auditor                usuarios_auditor?               @default(false)
+  orcamentos             orcamento[]                     @relation("usuario")
+  orcamentosProf         orcamento[]                     @relation("profissional")
+  usuariosUnidade        usuariosUnidade[]
+  eventos                eventos[]
+  usuconf                usuconf?
+
+  @@index([codu], map: "codu")
+}
+
+model usuconf {
+  codconusu               Int       @id @default(autoincrement()) @db.UnsignedInt
+  codu                    Int       @unique
+  hispac                  String?   @db.VarChar(10)
+  habvida                 String?   @db.VarChar(10)
+  outinf                  String?   @db.VarChar(10)
+  exafis                  String?   @db.VarChar(10)
+  exafisdet               String?   @db.VarChar(10)
+  doctos                  String?   @db.VarChar(10)
+  anexos                  String?   @db.VarChar(10)
+  prescri                 String?   @db.VarChar(10)
+  resuhist                String?   @db.VarChar(10)
+  atalhos                 String?   @db.VarChar(100)
+  inf9                    String?   @db.VarChar(40)
+  inf10                   String?   @default("true") @db.VarChar(7)
+  inf11                   String?   @db.VarChar(40)
+  inf12                   String?   @db.VarChar(40)
+  inf13                   String?   @db.VarChar(40)
+  inf14                   String?   @db.VarChar(40)
+  inf15                   String?   @db.VarChar(40)
+  inf16                   String?   @db.VarChar(40)
+  inf17                   String?   @db.VarChar(40)
+  inf18                   String?   @db.VarChar(40)
+  inf19                   String?   @db.VarChar(40)
+  tamtex1                 String?   @db.VarChar(40)
+  tamtex2                 String?   @db.VarChar(40)
+  tamtex3                 String?   @db.VarChar(40)
+  tamtex4                 String?   @db.VarChar(40)
+  infextras               String?   @default("false") @db.VarChar(10)
+  infreumato              String?   @default("false") @db.VarChar(10)
+  infpersonalizado        String?   @default("false") @db.VarChar(10)
+  audiolaudo              String?   @default("false") @db.VarChar(10)
+  infodontologia          String?   @default("false") @db.VarChar(10)
+  timeline                String?   @default("true") @db.VarChar(7)
+  imppdf                  String?   @default("false") @db.VarChar(10)
+  margemsupd              Int?      @default(25)
+  margemesqd              Int?      @default(30)
+  largurapagd             Int?      @default(150)
+  margemsupp              Int?      @default(25)
+  margemesqp              Int?      @default(30)
+  largurapagp             Int?      @default(150)
+  cabecalhop              String?   @db.Text
+  cabecalhod              String?   @db.Text
+  margemEsqLaudo          Int?      @default(20)
+  margemSupLaudo          Int?      @default(15)
+  larguraLaudo            Int?      @default(150)
+  alturaLaudo             Int?      @default(245)
+  alturaPaginacao         Int?      @default(880)
+  rodapeLaudo             String?   @db.Text
+  estoquePresc            String?   @default("false") @db.VarChar(10)
+  infoftalmologia         String?   @default("false") @db.VarChar(10)
+  receitaOculos           String?   @db.Text
+  rodRelatorio            String?   @db.Text
+  cabRelatorio            String?   @db.Text
+  moduloPadrao            Int?      @default(1)
+  infprenatal             String?   @default("false") @db.VarChar(8)
+  modoTabelasPreNatal     String?   @default("H") @db.VarChar(2)
+  infimagemed             String?   @default("false") @db.VarChar(8)
+  infformularios          String?   @default("false") @db.VarChar(10)
+  infscores               String?   @default("false") @db.VarChar(10)
+  modeloscore             Int?      @default(0)
+  ordemTimeline           String?   @default("ASC") @db.VarChar(5)
+  ordemProntuarios        String?   @default("ASC") @db.VarChar(5)
+  preenchelista           String?   @default("true") @db.VarChar(10)
+  preencheplano           String?   @default("true") @db.VarChar(10)
+  infoncologia            String?   @default("false") @db.VarChar(10)
+  tabelaOncologia         String?   @db.MediumText
+  timelineOftalmo         String?   @default("false") @db.VarChar(10)
+  infpediatria            String?   @default("false") @db.VarChar(10)
+  infpsicologia           String?   @default("false") @db.VarChar(7)
+  timelinePersonalizado   String?   @default("false") @db.VarChar(10)
+  incrementapersonalizado BoolEnum? @default(true)
+  manterCID               String?   @default("false") @db.VarChar(7)
+  obrigaCID               String?   @default("false") @db.VarChar(7)
+  addProceds              String?   @default("true") @db.VarChar(7)
+  obrigaProced            String?   @default("false") @db.VarChar(7)
+  addTarefas              String?   @default("true") @db.VarChar(7)
+  id_memed                String?   @db.VarChar(10)
+  memedConf               String?   @default("{\"ativa\":\"true\",\"dados\":\"\",\"token\":\"\",\"termos\":\"\"}") @db.VarChar(2000)
+  perguntasPers           BoolEnum? @default(false)
+  compartilhaProntuario   BoolEnum? @default(false)
+  obsClinicasPac          BoolEnum  @default(false)
+  cronometro              BoolEnum? @default(false)
+  infpericias             BoolEnum? @default(false)
+  guiasConsulta           BoolEnum? @default(false)
+  tagsAutocomplete        BoolEnum? @default(false)
+  modelosolicitacaoexames String?   @db.Text
+  status_secundario       BoolEnum? @default(false)
+  agendas_acesso          String?   @db.Text
+  modelo_pediatria        String?   @db.Text
+  telemedicina            String?   @default("") @db.VarChar(1000)
+  substituirpersonalizado BoolEnum? @default(false)
+  orcamentos_consulta     BoolEnum? @default(false)
+  compartilhar_psicologia BoolEnum? @default(false)
+  odonto_orcamentista     BoolEnum? @default(false)
+  odonto_executante       BoolEnum? @default(false)
+  usuario                 usuarios? @relation(fields: [codu], references: [codu])
+
+}
+
+model fluxodecaixa {
+  id             Int       @id @default(autoincrement())
+  codconta       Int?
+  dia            DateTime? @db.Date
+  entradas       Decimal?  @db.Decimal(15, 2)
+  saidas         Decimal?  @db.Decimal(15, 2)
+  saldodia       Decimal?  @db.Decimal(15, 2)
+  saldoanterior  Decimal?  @db.Decimal(15, 2)
+  saldoacumulado Decimal?  @db.Decimal(15, 2)
+
+  @@unique([codconta, dia], map: "conta_dia")
+}
+
+model faturamentoentradaitens {
+  iditem             Int                 @id @default(autoincrement())
+  idfatentrada       Int?
+  descricao          String?             @db.VarChar(200)
+  codproc            Int?
+  codprocder         Int?
+  codconvenio        Int?
+  datacad            DateTime?           @db.Date
+  datapago           DateTime?           @db.Date
+  pago               String?             @default("false") @db.VarChar(7)
+  modopag            Int?                @default(0)
+  valor              Decimal?            @default(0.00) @db.Decimal(10, 2)
+  reajuste           String?             @default("false") @db.VarChar(7)
+  tiporeajuste       String?             @default("") @db.VarChar(3)
+  qtdreajuste        Decimal?            @default(0.00) @db.Decimal(10, 2)
+  valorfinal         Decimal?            @default(0.00) @db.Decimal(10, 2)
+  usuarioRecebeu     Int?                @default(0)
+  codorc             Int?                @default(0)
+  faturamentoEntrada faturamentoentrada? @relation(fields: [idfatentrada], references: [idfatentrada])
+  procedimento       procedimentos?      @relation("procedimento", fields: [codproc], references: [codproc])
+  procedimentoder    procedimentos?      @relation("procedimentoder", fields: [codprocder], references: [codproc])
+}
+
+model faturamentoentrada {
+  idfatentrada            Int                       @id @default(autoincrement())
+  descricao               String?                   @db.VarChar(200)
+  codu                    Int?
+  codp                    Int?
+  idevento                Int?                      @unique
+  coduni                  Int?
+  datacad                 DateTime?                 @db.Date
+  datavenc                DateTime?                 @db.Date
+  parcelas                Int?                      @default(1)
+  categoria               Int?                      @default(0)
+  situacao                String?                   @db.VarChar(30)
+  recorrencia             Int?                      @default(0)
+  qtdrecorrencia          Int?                      @default(0)
+  centrocusto             Int?                      @default(0)
+  idparcelas              Int?                      @default(0)
+  idrecorrencia           Int?                      @default(0)
+  deleted                 String?                   @default("false") @db.VarChar(7)
+  log_edicoes             String?                   @db.Text
+  finalizado              BoolEnum?                 @default(false)
+  faturamentoEntradaItens faturamentoentradaitens[]
+  eventos                 eventos?                  @relation(fields: [idevento], references: [id])
+  pacientes               pacientes?                @relation(fields: [codp], references: [codp])
+  faturamentoLancamentos  faturamentolancamentos[]
+
+  @@index([datavenc], map: "datavenc")
+  @@index([idevento], map: "idevento")
+}
+
+model convenios {
+  codconvenio            Int                      @id @default(autoincrement()) @db.UnsignedInt
+  nome                   String                   @db.VarChar(100)
+  dias_retorno           Int?
+  registroans            String?                  @db.VarChar(60)
+  cidade                 String?                  @db.VarChar(60)
+  limiteDiario           Int?
+  convenioAtivo          String?                  @default("true") @db.VarChar(7)
+  quemAtende             String?                  @default("|0|") @db.VarChar(1000)
+  configTISS             String?                  @db.Text
+  numeracaotiss          String?                  @db.Text
+  logotipo               String?                  @db.VarChar(250)
+  tabelaprocs            Int?
+  codu_bloqueado         Int?                     @default(0)
+  edita_procedimento     BoolEnum?                @default(false)
+  dtcadastro             DateTime?                @db.DateTime(0)
+  flag_migracao          BoolEnum?                @default(false)
+  data_migracao          DateTime?                @db.DateTime(0)
+  data_cadastro          DateTime?                @default(now()) @db.DateTime(0)
+  data_edicao            DateTime?                @db.DateTime(0)
+  codu_update            Int?
+  itensOrcamento         orcamentoitens[]
+  pacientes              pacientes[]
+  faturamentolancamentos faturamentolancamentos[]
+  eventos                 eventos[]
+}
+
+model procedimentos {
+  codproc                Int                       @id @default(autoincrement()) @db.UnsignedInt
+  nome                   String                    @db.VarChar(350)
+  descricao              String?                   @db.Text
+  nomecodu               String?                   @db.VarChar(100)
+  diasuteisentrega       Int?                      @default(1)
+  tempoproc              Int?                      @default(0)
+  codigoSUS              String?                   @default("") @db.VarChar(11)
+  corAgenda              String?                   @default("#808080") @db.VarChar(8)
+  idformulario           Int?                      @default(0)
+  enviaFormEmail         Int?                      @default(0)
+  procAtivo              String?                   @default("true") @db.VarChar(7)
+  codtab22               Int?
+  quemAtende             String?                   @default("|0|") @db.VarChar(1000)
+  podeEditar             BoolEnum?                 @default(true)
+  retornoOnline          BoolEnum?                 @default(false)
+  categoria_padrao       Int?                      @default(0)
+  protocolos_aps         String?                   @default("[]") @db.VarChar(1000)
+  teleatendimento        BoolEnum?                 @default(false)
+  dtcadastro             DateTime?                 @default(now()) @db.DateTime(0)
+  flag_migracao          BoolEnum?                 @default(false)
+  data_migracao          DateTime?                 @db.DateTime(0)
+  data_cadastro          DateTime?                 @default(now()) @db.DateTime(0)
+  data_edicao            DateTime?                 @db.DateTime(0)
+  codu_update            Int?
+  itensOrcamento         orcamentoitens[]
+  faturaEntradaItens     faturamentoentradaitens[] @relation("procedimento")
+  faturaEntradaItensDer  faturamentoentradaitens[] @relation("procedimentoder")
+  faturamentolancamentos faturamentolancamentos    @relation(fields: [codproc], references: [codproc])
+}
+
+model cidade {
+  id             Int         @id @default(autoincrement())
+  nome           String?     @db.VarChar(120)
+  estado         Int?
+  estadoRelation estado?     @relation(fields: [estado], references: [id])
+  pacientes      pacientes[]
+}
+
+model estado {
+  id      Int      @id @default(autoincrement())
+  nome    String?  @db.VarChar(75)
+  uf      String?  @db.VarChar(5)
+  pais    Int?
+  cidades cidade[]
+}
+
+model locais {
+  codloc              Int       @id @default(autoincrement()) @db.UnsignedInt
+  nome                String    @db.VarChar(100)
+  descricao           String?   @db.Text
+  inf1                String?   @db.VarChar(20)
+  inf2                String?   @db.VarChar(20)
+  inf3                String?   @db.VarChar(20)
+  permiteSobreposicao BoolEnum? @default(true)
+  deleted             BoolEnum? @default(false)
+  avisaSobreposicao   BoolEnum? @default(true)
+}
+
+model status_secundario {
+  id                  Int       @id @default(autoincrement())
+  nome                String?   @db.VarChar(250)
+  codu_created        Int?
+  datetime_created    DateTime? @db.DateTime(0)
+  codu_update         Int?
+  datetime_update     DateTime? @db.DateTime(0)
+  ativo               BoolEnum? @default(false)
+  permite_atendimento BoolEnum? @default(true)
+}
+
+model medicoSolicitante {
+  id               Int     @id @default(autoincrement())
+  nome             String? @db.VarChar(100)
+  email            String? @db.VarChar(100)
+  telefone         String? @db.VarChar(20)
+  numNoConselhoSol Int?    @default(0)
+  conselhoSol      String? @default("0") @db.VarChar(2)
+  ufConselhoSol    String? @default("0") @db.VarChar(2)
+  cboSol           String? @default("0") @db.VarChar(6)
+  // eventos          eventos[] // relacao contém tipo string enquando o id é Int
+}
+
+model usuariosUnidade {
+  id              Int              @id @default(autoincrement())
+  codu            Int?
+  usuario         usuarios?        @relation(fields: [codu], references: [codu])
+  unidadesClinica unidadesClinica? @relation(fields: [coduni], references: [coduni])
+  coduni          Int?
+  finconf         finconf?         @relation(fields: [codu], references: [codu], map: "finconf_codu")
+
+}
+
+model unidadesClinica {
+  coduni          Int                     @id @default(autoincrement())
+  nome            String?                 @db.VarChar(100)
+  telefone        String?                 @db.Text
+  endereco        String?                 @db.Text
+  deleted         unidadesClinica_deleted @default(false)
+  cnpj            String?                 @db.VarChar(20)
+  contador        Int?                    @default(0)
+  usuariosUnidade usuariosUnidade[]
+}
+
+model faturamentolancamentos {
+  codlanc             Int                               @id @default(autoincrement())
+  idfat               Int                               @default(0)
+  idlink              Int                               @default(0)
+  descricao           String?                           @default("") @db.VarChar(300)
+  codproc             Int?                              @default(0)
+  codconvenio         Int?                              @default(0)
+  codconta            Int?                              @default(0)
+  modopag             Int?                              @default(0)
+  datavenc            DateTime?                         @db.Date
+  datarec             DateTime?                         @db.Date
+  efetivado           faturamentolancamentos_efetivado? @default(false)
+  codu_repasse        Int?                              @default(0)
+  codu_rec            Int?                              @default(0)
+  valor               Decimal?                          @default(0.00) @db.Decimal(15, 2)
+  reajuste            faturamentolancamentos_reajuste?  @default(false)
+  tiporeajuste        String?                           @default("") @db.VarChar(3)
+  qtdreajuste         Decimal?                          @default(0.00) @db.Decimal(15, 2)
+  valorfinal          Decimal?                          @default(0.00) @db.Decimal(15, 2)
+  tipo                faturamentolancamentos_tipo?      @default(receber)
+  codcontrato         Int?                              @default(0)
+  parcela             faturamentolancamentos_parcela?   @default(false)
+  data_efetivado      DateTime?                         @db.Date
+  ocorrenciaRepeticao Int?
+  procedimentos       procedimentos[]
+  convenios           convenios?                        @relation(fields: [codconvenio], references: [codconvenio])
+  faturamentoEntrada  faturamentoentrada?               @relation(fields: [idfat], references: [idfatentrada])
+  faturamentoSaida    faturamentosaida?                 @relation(fields: [idfat], references: [idfatsaida], map: "idfatsaida")
+
+
+  @@index([codconta], map: "codconta")
+  @@index([codconvenio], map: "codconvenio")
+  @@index([codproc], map: "codproc")
+  @@index([datavenc], map: "datavenc")
+  @@index([modopag], map: "modopag")
+  @@index([tipo], map: "tipo")
+}
+
+model regrasRepasse {
+  id          Int                 @id @default(autoincrement())
+  codu        Int?
+  codproc     Int?
+  codconvenio Int?
+  tipo        regrasRepasse_tipo?
+  valor       Decimal?            @db.Decimal(7, 2)
+
+  @@index([codu, codproc, codconvenio], map: "codu_codproc_codconvenio")
+}
+
+model faturamentosaida {
+  idfatsaida             Int                      @id @default(autoincrement())
+  descricao              String?                  @db.VarChar(200)
+  codu                   Int?
+  codp                   Int?
+  codc                   Int?                     @default(0)
+  pagoa                  String?                  @default("") @db.VarChar(200)
+  coduni                 Int?
+  datacad                DateTime?                @db.Date
+  datavenc               DateTime?                @db.Date
+  parcelas               Int?                     @default(1)
+  categoria              Int?                     @default(0)
+  situacao               String?                  @db.VarChar(30)
+  recorrencia            Int?                     @default(0)
+  qtdrecorrencia         Int?                     @default(0)
+  centrocusto            Int?                     @default(0)
+  idparcelas             Int?                     @default(0)
+  idrecorrencia          Int?                     @default(0)
+  deleted                String?                  @default("false") @db.VarChar(7)
+  log_edicoes            String?                  @db.Text
+  ocorrenciaRepeticao    Int?
+  faturamentoLancamentos faturamentolancamentos[]
+
+  @@index([datavenc], map: "datavenc")
+}
+
+model finconf {
+  codfinconf      Int               @id @default(autoincrement()) @db.UnsignedInt
+  nome            String            @db.VarChar(150)
+  inf1            String            @db.VarChar(150)
+  inf2            String            @db.VarChar(150)
+  valor           Decimal?          @default(0.00) @db.Decimal(10, 2)
+  tpinf           String            @db.VarChar(150)
+  codu            Int
+  datacad         DateTime          @db.Date
+  usuariosUnidade usuariosUnidade[]
+
+  @@index([codu], map: "codu")
+}
+
+model modelos {
+  id        Int       @id @default(autoincrement())
+  modelo    String?   @db.VarChar(50)
+  descricao String?   @db.VarChar(100)
+  conteudo  String?   @db.MediumText
+  deleted   BoolEnum? @default(false)
+}
+
+model pacsimg {
+  codimg        Int                    @id @default(autoincrement()) @db.UnsignedInt
+  codp          Int?
+  codu          Int?
+  datacad       DateTime?              @db.Date
+  endimg        String                 @db.VarChar(200)
+  legenda       String?                @db.VarChar(200)
+  dicom         String?                @db.VarChar(30)
+  codConsulta   Int?                   @default(0)
+  idalbum       Int?                   @default(0)
+  deleted       String?                @default("false") @db.VarChar(6)
+  thumbnail     String?                @default("") @db.VarChar(200)
+  flag_migracao pacsimg_flag_migracao? @default(false)
+  data_migracao DateTime?              @db.DateTime(0)
+}
+
+model pacsdoc {
+  coddoc        Int                    @id @default(autoincrement())
+  codp          Int?
+  codu          Int?
+  datacad       String?                @db.VarChar(10)
+  enddoc        String?                @db.VarChar(200)
+  nomedoc       String?                @db.VarChar(200)
+  legenda       String?                @db.VarChar(200)
+  codConsulta   Int?
+  deleted       String?                @default("false") @db.VarChar(6)
+  flag_migracao pacsdoc_flag_migracao? @default(false)
+  data_migracao DateTime?              @db.DateTime(0)
+}
+
+model chat_telemedicina {
+  id            Int                              @id @default(autoincrement())
+  hash_sala     String?                          @db.VarChar(100)
+  tipo_mensagem chat_telemedicina_tipo_mensagem? @default(text)
+  mensagem      String?                          @db.Text
+  sender        Int?
+  receiver      Int?
+  tipo_sender   chat_telemedicina_tipo_sender?   @default(prof)
+  data_hora     DateTime?                        @db.DateTime(0)
+}
+
+enum clinica_cobrarapp {
+  true
+  false
+}
+
+enum clinica_status_secundario {
+  true
+  false
+}
+
+enum clinica_filtroEspecAgenda {
+  true
+  false
+}
+
+enum clinica_integraSUS {
+  true
+  false
+}
+
+enum clinica_usaSolicitante {
+  true
+  false
+}
+
+enum clinica_usaReembolso {
+  true
+  false
+}
+
+enum clinica_bloqueioProntuario {
+  true
+  false
+}
+
+enum clinica_edtObsPacAgenda {
+  true
+  false
+}
+
+enum clinica_alertaObsPacAgenda {
+  true
+  false
+}
+
+enum clinica_precadastro {
+  true
+  false
+}
+
+enum clinica_modulo_questionarios {
+  true
+  false
+}
+
+enum clinica_observacao_obrigatoria_agendamento {
+  true
+  false
+}
+
+enum clinica_exibe_id_sol {
+  true
+  false
+}
+
+enum clinica_obriga_id_sol {
+  true
+  false
+}
+
+enum clinica_filtro_grupos {
+  true
+  false
+}
+
+enum clinica_modulo_oncologia {
+  true
+  false
+}
+
+enum clinica_cobrar_telemedicina {
+  true
+  false
+}
+
+enum clinica_controle_vacinas {
+  true
+  false
+}
+
+enum clinica_aviso_inadimplencia_paciente {
+  true
+  false
+}
+
+enum chat_telemedicina_tipo_mensagem {
+  text
+  file
+}
+
+enum chat_telemedicina_tipo_sender {
+  prof
+  pac
+}
+
+enum pacsdoc_flag_migracao {
+  true
+  false
+}
+
+enum pacsimg_flag_migracao {
+  true
+  false
+}
+
+enum faturamentolancamentos_efetivado {
+  true
+  false
+}
+
+enum faturamentolancamentos_reajuste {
+  true
+  false
+}
+
+enum consulta_flag_migracao {
+  true
+  false
+}
+
+enum faturamentolancamentos_tipo {
+  receber
+  pagar
+}
+
+enum faturamentolancamentos_parcela {
+  true
+  false
+}
+
+enum unidadesClinica_deleted {
+  true
+  false
+}
+
+enum BoolEnum {
+  true
+  false
+}
+
+enum orcamento_statusorc {
+  elaboracao
+  aprovacao
+  revisao
+  parcaprovado
+  aprovado
+  recusado
+}
+
+enum orcamento_deleted {
+  true
+  false
+}
+
+enum orcamentoitens_reajuste {
+  true
+  false
+}
+
+enum orcamentoitens_tiporeajuste {
+  PORCENTAGEM  @map("%")
+  DINHEIRO     @map("$")
+}
+
+enum orcamentoitens_aprovado {
+  true
+  false
+}
+
+enum eventos_vinculoApp {
+  true
+  false
+}
+
+enum eventos_flag_migracao {
+  true
+  false
+}
+
+enum pacientes_estrangeiro {
+  true
+  false
+}
+
+enum pacientes_tiposanguineo {
+  AB_POSITVO   @map("AB+")
+  AB_NEGATIVO  @map("AB−")
+  B_POSITIVO   @map("B+")
+  B_NEGATIVO   @map("B−")
+  A_POSITIVO   @map("A+")
+  A_NEGATIVO   @map("A−")
+  O_POSITIVO   @map("O+")
+  O_NEGATIVO   @map("O−")
+  NF
+}
+
+enum pacientes_compartilha_dados {
+  true
+  false
+}
+
+enum pacientes_flag_migracao {
+  true
+  false
+}
+
+enum usuarios_blockModalCadHorarios {
+  true
+  false
+}
+
+enum usuarios_cobrarUsuario {
+  true
+  false
+}
+
+enum usuarios_usaCertificado {
+  true
+  false
+}
+
+enum usuarios_atendeOnline {
+  true
+  false
+}
+
+enum usuarios_agenda_procedimentos {
+  true
+  false
+}
+
+enum usuarios_perfil {
+  Medico
+  Atendente
+  Triagem
+  Faturista
+  Gerentefinanceiro
+  Agendaprocedimentos
+}
+
+enum usuarios_cooperado {
+  true
+  false
+}
+
+enum usuarios_consulta_dados_res {
+  true
+  false
+}
+
+enum usuarios_envia_dados_res {
+  true
+  false
+}
+
+enum usuarios_tipo_certificado {
+  soluti
+  eval
+}
+
+enum usuarios_usuario_restrito {
+  true
+  false
+}
+
+enum usuarios_auditor {
+  true
+  false
+}
+
+enum regrasRepasse_tipo {
+  PORCENTAGEM  @map("%")
+  DINHEIRO     @map("$")
+}

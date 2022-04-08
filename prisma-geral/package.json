@@ -1,0 +1,29 @@
+{
+  "name": "@thevoidtest/prisma-geral",
+  "version": "1.0.0",
+  "types": "lib/client/index.d.ts",
+  "main": "lib/client/index.js",
+  "files": [
+    "lib/*.js",
+    "lib/*.ts",
+    "lib/**/*.js",
+    "lib/**/*.ts",
+    "lib/*.prisma"
+  ],
+  "scripts": {
+    "build:dev": "npx prisma generate --schema=lib/schema.prisma",
+    "build": "npx prisma db pull --schema=lib/schema.prisma && rimraf lib/client && prisma generate --schema=lib/schema.prisma",
+    "pre:publish": "rimraf ./lib/client && npx prisma generate --schema=lib/schema.prisma && yarn publish",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.22",
+    "prettier": "^2.3.2",
+    "prisma": "^3.12.0",
+    "rimraf": "^3.0.2"
+  },
+  "license": "ISC"
+}
